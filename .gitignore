@@ -1,0 +1,12 @@
+node_modules/
+build/
+dist/
+.expo/
+android/app/build/
+android/.gradle/
+android/build/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
