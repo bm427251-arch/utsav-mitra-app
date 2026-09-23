@@ -22,13 +22,15 @@ interface VendorDetailModalProps {
   onClose: () => void;
   onCall: (vendor: Vendor) => void;
   onWhatsApp: (vendor: Vendor) => void;
+  onBookAdvance?: (vendor: Vendor) => void;
 }
 
 export const VendorDetailModal: React.FC<VendorDetailModalProps> = ({
   vendor,
   onClose,
   onCall,
-  onWhatsApp
+  onWhatsApp,
+  onBookAdvance
 }) => {
   if (!vendor) return null;
 
@@ -81,6 +83,25 @@ export const VendorDetailModal: React.FC<VendorDetailModalProps> = ({
 
         {/* Modal Body */}
         <div className="p-5 sm:p-6 space-y-6 flex-1">
+          {/* Active Subscription Live Badge */}
+          {vendor.subscription?.active && (
+            <div className="bg-emerald-50 border border-emerald-300 rounded-xl p-3 flex items-center justify-between text-xs animate-in fade-in">
+              <div className="flex items-center gap-2.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                <div>
+                  <p className="font-bold text-emerald-900 font-bengali">
+                    উৎসব মিত্র লাইভ পার্টনার ({vendor.subscription.planTitleBn})
+                  </p>
+                  <p className="text-[11px] text-emerald-700 font-bengali">
+                    মেম্বারশিপ মেয়াদ: {vendor.subscription.expiryDate} পর্যন্ত সম্পূর্ণ সক্রিয়
+                  </p>
+                </div>
+              </div>
+              <span className="bg-emerald-600 text-white font-bold text-[10px] px-2 py-0.5 rounded-full">
+                অটো-লাইভ
+              </span>
+            </div>
+          )}
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-3 gap-2 bg-gray-50 p-3 rounded-2xl border border-gray-100 text-center">
             <div>
@@ -207,21 +228,31 @@ export const VendorDetailModal: React.FC<VendorDetailModalProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            {onBookAdvance && (
+              <button
+                onClick={() => onBookAdvance(vendor)}
+                id="vendor-pay-advance-btn"
+                className="bg-[#800020] hover:bg-[#600018] text-white font-semibold text-xs sm:text-sm px-3.5 py-2.5 rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>বুকিং পে</span>
+              </button>
+            )}
+
             <button
               onClick={() => onCall(vendor)}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-1.5 cursor-pointer"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs sm:text-sm px-3.5 py-2.5 rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-1.5 cursor-pointer"
             >
               <Phone className="w-4 h-4" />
-              <span>সরাসরি কল</span>
+              <span>কল</span>
             </button>
 
             <button
               onClick={() => onWhatsApp(vendor)}
-              className="bg-[#25D366] hover:bg-[#1EBE5D] text-white font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-1.5 cursor-pointer"
+              className="bg-[#25D366] hover:bg-[#1EBE5D] text-white font-semibold text-xs sm:text-sm px-3.5 py-2.5 rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-1.5 cursor-pointer"
             >
               <MessageCircle className="w-4 h-4" />
-              <span>WhatsApp চ্যাট</span>
+              <span>WhatsApp</span>
             </button>
           </div>
         </div>

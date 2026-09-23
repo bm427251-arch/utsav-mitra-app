@@ -23,6 +23,30 @@ export interface VendorSocialLinks {
   youtube?: string;
 }
 
+export type VendorSubscriptionPlanId = '1_month' | '6_months' | '1_year';
+
+export interface VendorSubscriptionPlan {
+  id: VendorSubscriptionPlanId;
+  durationMonths: number;
+  titleBn: string;
+  titleEn: string;
+  price: number;
+  originalPrice: number;
+  popular?: boolean;
+  savingsPercentage: number;
+  features: string[];
+}
+
+export interface VendorSubscription {
+  planId: VendorSubscriptionPlanId;
+  planTitleBn: string;
+  price: number;
+  startDate: string;
+  expiryDate: string;
+  active: boolean;
+  paymentId?: string;
+}
+
 export interface Vendor {
   id: string;
   name: string;
@@ -48,6 +72,7 @@ export interface Vendor {
   bio: string;
   experienceYears: number;
   featured?: boolean;
+  subscription?: VendorSubscription;
 }
 
 export interface EventBundle {

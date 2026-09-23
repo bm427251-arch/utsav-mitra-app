@@ -1,12 +1,14 @@
 import React from 'react';
-import { MapPin, PhoneCall, ShieldCheck, ChevronDown } from 'lucide-react';
+import { MapPin, PhoneCall, ShieldCheck, ChevronDown, Store } from 'lucide-react';
 import { POPULAR_PIN_CODES } from '../data/mockData';
 
 interface HeaderProps {
   selectedPin: string;
   onSelectPin: (pin: string) => void;
   onOpenEmergency: () => void;
-  activeScreen: 'home' | 'vendors';
+  onOpenVendorRegistration: () => void;
+  onNavigateSubscription?: () => void;
+  activeScreen: 'home' | 'vendors' | 'checkout' | 'payments' | 'subscription';
   onNavigateHome: () => void;
 }
 
@@ -14,6 +16,8 @@ export const Header: React.FC<HeaderProps> = ({
   selectedPin,
   onSelectPin,
   onOpenEmergency,
+  onOpenVendorRegistration,
+  onNavigateSubscription,
   activeScreen,
   onNavigateHome
 }) => {
@@ -42,12 +46,8 @@ export const Header: React.FC<HeaderProps> = ({
           onClick={onNavigateHome}
           className="flex items-center cursor-pointer group select-none"
         >
-          <div className="logo-container" style={{ width: '140px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-            <img 
-              src="/logo.png" 
-              alt="Utsav Mitra"
-              style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center' }}
-            />
+          <div style={{width: '140px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <img src="/logo.png" alt="Utsav Mitra" style={{width: '100%', height: '100%', objectFit: 'contain'}} />
           </div>
         </div>
 
@@ -73,14 +73,25 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
 
+          {/* Vendor Registration Button */}
+          <button
+            id="join-vendor-btn"
+            onClick={onOpenVendorRegistration}
+            className="flex items-center gap-1 bg-[#D4AF37] hover:bg-[#c29f2e] text-[#5A0016] font-bold text-xs px-2.5 py-1.5 rounded-lg shadow-sm transition-transform active:scale-95 cursor-pointer"
+          >
+            <Store className="w-3.5 h-3.5" />
+            <span className="font-bengali hidden sm:inline">ভেন্ডার যোগ দিন</span>
+            <span className="font-bengali sm:hidden">ভেন্ডার</span>
+          </button>
+
           {/* Emergency Support Button */}
           <button
             id="emergency-support-btn"
             onClick={onOpenEmergency}
-            className="flex items-center gap-1.5 bg-[#FF6F61] hover:bg-[#ff5747] text-white font-medium text-xs sm:text-sm px-3 py-1.5 rounded-lg shadow-md transition-transform active:scale-95 cursor-pointer animate-pulse"
+            className="flex items-center gap-1.5 bg-[#FF6F61] hover:bg-[#ff5747] text-white font-medium text-xs sm:text-sm px-2.5 sm:px-3 py-1.5 rounded-lg shadow-md transition-transform active:scale-95 cursor-pointer animate-pulse"
           >
             <PhoneCall className="w-3.5 h-3.5" />
-            <span className="font-bengali font-semibold">জরুরি সেবা</span>
+            <span className="font-bengali font-semibold">জরুরি</span>
             <span className="hidden md:inline text-[11px] bg-black/20 px-1.5 py-0.5 rounded ml-0.5">২৪/৭</span>
           </button>
         </div>

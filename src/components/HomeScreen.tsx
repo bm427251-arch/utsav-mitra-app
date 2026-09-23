@@ -27,6 +27,8 @@ interface HomeScreenProps {
   onSelectBundle: (bundle: EventBundle) => void;
   onOpenEmergency: () => void;
   onSelectVendor: (vendor: Vendor) => void;
+  onOpenVendorRegistration?: () => void;
+  onOpenSubscription?: () => void;
   featuredVendors: Vendor[];
   selectedPin: string;
 }
@@ -37,6 +39,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   onSelectBundle,
   onOpenEmergency,
   onSelectVendor,
+  onOpenVendorRegistration,
+  onOpenSubscription,
   featuredVendors,
   selectedPin
 }) => {
@@ -485,6 +489,44 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             ))}
           </div>
         </section>
+
+        {/* Vendor Onboarding Callout Banner */}
+        {(onOpenVendorRegistration || onOpenSubscription) && (
+          <section className="bg-gradient-to-r from-[#800020] via-[#600018] to-[#800020] rounded-2xl p-5 sm:p-6 text-white border-2 border-[#D4AF37]/40 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="space-y-1.5 text-center sm:text-left">
+              <span className="text-[10px] uppercase font-bold tracking-wider bg-[#D4AF37]/20 text-[#F5E08C] border border-[#D4AF37]/30 px-2.5 py-0.5 rounded-full">
+                ভেন্ডার পার্টনারশিপ ও মেম্বারশিপ
+              </span>
+              <h3 className="text-base sm:text-lg font-bold font-bengali">
+                আপনি কি পুরোহিত, ক্যাটারার, ডেকোরেটর বা ফটোগ্রাফার?
+              </h3>
+              <p className="text-xs text-gray-200 font-bengali max-w-xl">
+                উৎসব মিত্রে যুক্ত হয়ে সরাসরি গ্রাহক লিড পান। ১ মাস, ৬ মাস ও ১ বছরের সুলভ সাবস্ক্রিপশন প্ল্যান নিয়ে ব্যবসা বাড়ান।
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto shrink-0">
+              {onOpenSubscription && (
+                <button
+                  onClick={onOpenSubscription}
+                  id="home-vendor-plans-btn"
+                  className="bg-[#D4AF37] hover:bg-[#bfa032] text-[#5A0016] font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-md transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <Sparkles className="w-4 h-4 text-[#5A0016]" />
+                  <span>প্ল্যান ও অফার (₹৫৯৯)</span>
+                </button>
+              )}
+              {onOpenVendorRegistration && (
+                <button
+                  onClick={onOpenVendorRegistration}
+                  id="home-vendor-register-btn"
+                  className="bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-white/30 transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <span>রেজিস্ট্রেশন করুন</span>
+                </button>
+              )}
+            </div>
+          </section>
+        )}
 
         {/* Trust Guarantees */}
         <section className="bg-white rounded-2xl p-5 border border-gray-200 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">

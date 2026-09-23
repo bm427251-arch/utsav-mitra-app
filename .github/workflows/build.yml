@@ -20,19 +20,22 @@ jobs:
           npm install @tailwindcss/oxide-linux-x64-gnu --save-optional || true
       - name: Build Web
         run: npm run build
+      - name: Setup Android Keystore
+        run: |
+          keytool -genkey -v -keystore android/app/debug.keystore -alias androiddebugkey -storepass android -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Utsav Mitra,O=Utsav Mitra,C=IN"
       - name: Build Android AAB & APK
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew bundleRelease
-          ./gradlew assembleRelease
+          ./gradlew bundleRelease --stacktrace
+          ./gradlew assembleRelease --stacktrace
       - name: Upload AAB
         uses: actions/upload-artifact@v4
         with:
           name: app-release-aab
-          path: android/app/build/outputs/bundle/release/app-release.aab
+          path: android/app/build/outputs/bundle/release/*.aab
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release-apk
-          path: android/app/build/outputs/apk/release/app-release.apk
+          path: android/app/build/outputs/apk/release/*.apk
