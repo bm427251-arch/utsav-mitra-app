@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { HashRouter as Router } from 'react-router-dom';
 import { 
   Home, 
   Search, 
@@ -9,7 +10,8 @@ import {
   ShieldCheck, 
   CheckCircle2,
   SlidersHorizontal,
-  CreditCard
+  CreditCard,
+  Crown
 } from 'lucide-react';
 import { Header } from './components/Header';
 import { HomeScreen } from './components/HomeScreen';
@@ -25,7 +27,6 @@ import { VendorSubscriptionScreen } from './screens/VendorSubscriptionScreen';
 import { MOCK_VENDORS, READY_EVENT_BUNDLES } from './data/mockData';
 import { filterVendors, EVENT_CATEGORIES } from './utils/keywordEngine';
 import { EventBundle, EventCategoryId, Vendor } from './types';
-import { Crown } from 'lucide-react';
 
 export default function App() {
   const [activeScreen, setActiveScreen] = useState<'home' | 'vendors' | 'checkout' | 'payments' | 'subscription'>('home');
@@ -121,8 +122,9 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] text-[#1F1A1C] flex flex-col font-sans">
-      {/* Top Application Header */}
+    <Router>
+      <div className="min-h-screen bg-[#FAFAFA] text-[#1F1A1C] flex flex-col font-sans">
+        {/* Top Application Header */}
       <Header
         selectedPin={selectedPin}
         onSelectPin={setSelectedPin}
@@ -290,8 +292,8 @@ export default function App() {
           setSelectedBundle(null);
           setCheckoutItem({
             id: bundle.id,
-            title: bundle.titleBengali,
-            category: bundle.category,
+            title: bundle.titleBn,
+            category: bundle.categoryId,
             price: bundle.priceEstimate,
             date: details.date,
             guests: details.guests,
@@ -312,7 +314,7 @@ export default function App() {
           setCheckoutItem({
             id: `vendor_${vendor.id}`,
             title: `${vendor.businessNameBn} - অগ্রিম বুকিং ফি`,
-            category: vendor.category,
+            category: vendor.categoryTitleEn || vendor.categoryId,
             vendorName: vendor.businessNameBn,
             price: vendor.startingPrice,
             pinCode: selectedPin
@@ -348,6 +350,7 @@ export default function App() {
         }}
       />
     </div>
-  );
+  </Router>
+);
 }
 
