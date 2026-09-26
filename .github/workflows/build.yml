@@ -19,7 +19,11 @@ jobs:
           npm install --include=optional
           npm install @tailwindcss/oxide-linux-x64-gnu --save-optional || true
       - name: Build Web
-        run: npm run build
+        run: |
+          npm run build
+          rm -rf android/app/src/main/assets
+          mkdir -p android/app/src/main/assets
+          cp -r dist/* android/app/src/main/assets/
       - name: Setup Android Keystore
         run: |
           keytool -genkey -v -keystore android/app/debug.keystore -alias androiddebugkey -storepass android -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Utsav Mitra,O=Utsav Mitra,C=IN"
